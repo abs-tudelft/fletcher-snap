@@ -19,11 +19,16 @@ ifndef FLETCHER_DIR
 $(error FLETCHER_DIR is not set)
 endif
 
-subdirs += sw hw
+subdirs += sw
 
-all: symlink $(subdirs)
+all: $(subdirs)
 
-.PHONY: symlink $(subdirs)
+.PHONY: $(subdirs) hw
+
+hw:
+	echo "INFO: Creating Fletcher hardware symlinks."
+	ln -fs $(FLETCHER_DIR)/hardware hw/fletcher
+	ln -fs $(FLETCHER_DIR)/examples/stringwrite/hardware hw/stringwrite
 
 $(subdirs):
 	@if [ -d $@ -a -f $@/Makefile ]; then			\
@@ -31,11 +36,6 @@ $(subdirs):
 	else							\
 		echo "INFO: No Makefile available in $@ ...";	\
 	fi
-
-# Symlink to fletcher hardware directories
-symlink:
-	ln -fs hw/$(FLETCHER_DIR)/hardware hw/fletcher
-	ln -fs hw/$(FLETCHER_DIR)/examples/stringwrite/hardware hw/stringwrite
 
 # Cleanup for all subdirectories.
 # Only dive into subdirectory if existent and if Makefile is there.
