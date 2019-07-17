@@ -7,7 +7,7 @@ if(SNAP)
   add_library(snap INTERFACE IMPORTED GLOBAL)
   target_include_directories(snap INTERFACE "$ENV{SNAP_ROOT}/software/include")
 else()
-  message(FATAL_ERROR "Dependency snap not found")
+  message(FATAL_ERROR "Dependency snap not found. Please source snap_path.sh from the SNAP folder.")
 endif()
 
 include(FetchContent)
