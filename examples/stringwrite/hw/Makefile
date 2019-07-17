@@ -14,6 +14,11 @@
 # limitations under the License.
 #
 
+# Make sure Fletcher environment variable is set.
+ifndef FLETCHER_DIR
+$(error FLETCHER_DIR is not set)
+endif
+
 vhd_srcs=$(wildcard *.vhd_source)
 vhd_files=$(vhd_srcs:.vhd_source=.vhd)
 
@@ -22,6 +27,10 @@ vhd_files=$(vhd_srcs:.vhd_source=.vhd)
 all: config
 
 config:
+	# Create symlinks to Fletcher repo files
+	ln -fs $(FLETCHER_DIR)/hardware fletcher
+	ln -fs $(FLETCHER_DIR)/examples/stringwrite/hardware stringwrite
+	
 	./action_config.sh
 
 clean:
